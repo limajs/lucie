@@ -1,0 +1,24 @@
+{
+  "name": "lucie",
+  "version": "1.0.0",
+  "description": "Simple CI server based on GitHub WebHooks",
+  "main": "server.js",
+  "dependencies": {
+    "hapi": "10.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/limajs/lucie.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/limajs/lucie/issues"
+  },
+  "homepage": "https://github.com/limajs/lucie"
+}
