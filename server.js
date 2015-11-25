@@ -32,6 +32,9 @@ server.route({
         buildDockerImage.stdout.on('data', function(data){
           console.log('build_docker_img', data.toString());
         });
+        buildDockerImage.stderr.on('data', function(data){
+          console.log('err: build_docker_img', data.toString());
+        });
 
         buildDockerImage.on('close', function(code) {
           if(code !== 0){
@@ -42,6 +45,14 @@ server.route({
           var tagImage = spawn('docker',
             ['tag', imageName, 'localhost:5000/' + imageName]);
 
+          tagImage.stdout.on('data', function(data){
+            console.log('tag_img', data.toString());
+          });
+          
+          tagImage.stderr.on('data', function(data){
+            console.log('err: tag_img', data.toString());
+          });
+
           tagImage.on('close', function(code) {
             if(code !== 0){
               return console.log("Error tagging image", code);
@@ -50,8 +61,12 @@ server.route({
             var pushToRegistry = spawn('docker',
               ['push', 'localhost:5000/' + imageName]);
 
-            pushToRegistry.on('data', function(data){
+            pushToRegistry.stdout.on('data', function(data){
               console.log('push_to_reg', data);
+            });
+
+            pushToRegistry.stderr.on('data', function(data){
+              console.log('err: push_to_reg', data);
             });
 
             pushToRegistry.on('close', function(code){
@@ -61,12 +76,7 @@ server.route({
 
           });
 
-          tagImage.stdout.on('data', function(data){
-            console.log('tag_img', data.toString());
-          });
-
         });
-
 
       });
   }
