@@ -1,5 +1,6 @@
 var Hapi = require('hapi');
 var git = require('nodegit');
+var spawn = require('child_process').spawn;
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
@@ -11,13 +12,27 @@ server.route({
     console.log("Incoming message from GitHub", request.payload);
     reply('OK');
 
-    git.Clone.clone('https://github.com/limajs/hubble.git', 'work_dir_' + request.payload.after)
+    var workDir = 'work_dir_' + request.payload.after;
+
+    git.Clone.clone('https://github.com/limajs/hubble.git', workDir)
       .then(function(repo) {
         console.log("Cloned", request.payload.after);
+      })
+      .then(function() {
+        var buildDockerImage = spawn('docker', 
+          ['build', '-t', 'simoncrabtree/hubble:1.0', '.'], 
+          {
+            cwd: workDir
+          }
+        );
+
+        buildDockerImage.stdout.on('data', function(data){
+          console.log('stdout:', data);
+        });
       });
   }
 });
 
 server.start(function () {
-    console.log('Server running at:', server.info.uri);
+  console.log('Server running at:', server.info.uri);
 });
