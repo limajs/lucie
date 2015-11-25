@@ -4,12 +4,12 @@ var server = new Hapi.Server();
 server.connection({ port: 3000 });
 
 server.route({
-	method: 'POST',
-	path: '/lucie',
-	handler: function(request, reply) {
-		console.log("Incoming message from GitHub");
-		reply('OK');
-	}
+  method: 'POST',
+  path: '/lucie',
+  handler: function(request, reply) {
+    console.log("Incoming message from GitHub", request.payload);
+    reply('OK');
+  }
 })
 
 server.start(function () {
