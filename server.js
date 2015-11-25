@@ -1,6 +1,7 @@
 var Hapi = require('hapi');
 var git = require('nodegit');
 var spawn = require('child_process').spawn;
+var buildNumber = process.argv[2];
 
 var server = new Hapi.Server();
 server.connection({ port: 3000 });
@@ -9,13 +10,15 @@ server.route({
   method: 'POST',
   path: '/lucie',
   handler: function(request, reply) {
-    console.log("Incoming message from GitHub");
+    buildNumber++;
+
+    console.log("Running Build Number:", buildNumber);
     reply('OK');
 
     var workDir = 'work_dir_' + request.payload.after;
     console.log("Cloning to " + workDir);
 
-    var imageName = 'simoncrabtree/hubble:1.0';
+    var imageName = 'simoncrabtree/hubble:1.0.' + buildNumber;
 
     git.Clone.clone('https://github.com/limajs/hubble.git', workDir)
       .then(function(repo) {
