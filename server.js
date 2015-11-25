@@ -65,11 +65,11 @@ server.route({
               ['push', 'localhost:5000/' + imageName]);
 
             pushToRegistry.stdout.on('data', function(data){
-              console.log('push_to_reg', data);
+              console.log('push_to_reg', data.toString());
             });
 
             pushToRegistry.stderr.on('data', function(data){
-              console.log('err: push_to_reg', data);
+              console.log('err: push_to_reg', data.toString());
             });
 
             pushToRegistry.on('close', function(code){
