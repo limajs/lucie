@@ -28,7 +28,7 @@ server.route({
         );
 
         buildDockerImage.stdout.on('data', function(data){
-          console.log('stdout:', data);
+          console.log('stdout:', data.toString());
         });
       });
   }
