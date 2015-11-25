@@ -4,7 +4,9 @@
   "description": "Simple CI server based on GitHub WebHooks",
   "main": "server.js",
   "dependencies": {
-    "hapi": "10.5.0"
+    "github": "^0.2.4",
+    "hapi": "10.5.0",
+    "nodegit": "^0.5.0"
   },
   "devDependencies": {},
   "scripts": {
