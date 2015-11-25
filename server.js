@@ -9,14 +9,15 @@ server.route({
   method: 'POST',
   path: '/lucie',
   handler: function(request, reply) {
-    console.log("Incoming message from GitHub", request.payload);
+    console.log("Incoming message from GitHub");
     reply('OK');
 
     var workDir = 'work_dir_' + request.payload.after;
+    console.log("Cloning to " + workDir);
 
     git.Clone.clone('https://github.com/limajs/hubble.git', workDir)
       .then(function(repo) {
-        console.log("Cloned", request.payload.after);
+        console.log("Cloned to " + workDir);
       })
       .then(function() {
         var buildDockerImage = spawn('docker', 
